@@ -1,9 +1,15 @@
 package com.gmail.arthurstrokov.mongodb;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class MongodbApplication implements CommandLineRunner {
@@ -21,6 +27,16 @@ public class MongodbApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase mongoDatabase = mongoClient.getDatabase("test_db");
+        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("customer_test");
+        mongoCollection.insertOne(new Document("name", "MongoDB")
+                .append("type", "database")
+                .append("count", 1)
+                .append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
+                .append("info", new Document("x", 203).append("y", 102)));
+
         repository.deleteAll();
 
         // save a couple of customers
