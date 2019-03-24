@@ -5,6 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import static java.lang.System.out;
+
 @SpringBootApplication
 public class MongodbApplication implements CommandLineRunner {
 
@@ -20,7 +22,7 @@ public class MongodbApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         repository.deleteAll();
 
         // save a couple of customers
@@ -28,22 +30,22 @@ public class MongodbApplication implements CommandLineRunner {
         repository.save(new Customer("Bob", "Smith"));
 
         // fetch all customers
-        System.out.println("Customers found with findAll():");
-        System.out.println("-------------------------------");
+        out.println("Customers found with findAll():");
+        out.println("-------------------------------");
         for (Customer customer : repository.findAll()) {
-            System.out.println(customer);
+            out.println(customer);
         }
-        System.out.println();
+        out.println();
 
         // fetch an individual customer
-        System.out.println("Customer found with findByFirstName('Alice'):");
-        System.out.println("--------------------------------");
-        System.out.println(repository.findByFirstName("Alice"));
+        out.println("Customer found with findByFirstName('Alice'):");
+        out.println("--------------------------------");
+        out.println(repository.findByFirstName("Alice"));
 
-        System.out.println("Customers found with findByLastName('Smith'):");
-        System.out.println("--------------------------------");
+        out.println("Customers found with findByLastName('Smith'):");
+        out.println("--------------------------------");
         for (Customer customer : repository.findByLastName("Smith")) {
-            System.out.println(customer);
+            out.println(customer);
         }
     }
 }
